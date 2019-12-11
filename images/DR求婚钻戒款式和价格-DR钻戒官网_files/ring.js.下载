@@ -1,0 +1,343 @@
+/*
+ * 求婚钻戒入口模块
+ * 2015-06-27 14:00
+ * */
+define(function(require,exports,module){
+	/*通过 require 引入依赖*/
+	require('jquery');
+	var Banner = require('js/modules/banner.js');
+	var Imgscroll = require('js/modules/scrolling.js');
+	
+	$(function(){
+		//调用banner组件
+		if ($('#drHomeBan li').size() > 1) {
+	    	var indexBan = new Banner().init({
+			 	id:'#drHomeBan',
+			 	btnListId:'#drHomeBanxd',
+			 	btnListClass:'drbanner_click',
+	            nextBtn:'#drbanNext',
+	            prevBtn:'#drbanPrev'
+			 });
+	  	}else{
+	  		$('#drHomeBanxd').remove();
+	  	} 	
+
+	  	// 商品列表图片移入
+		$('.ringlist .imgBox').each(function(){
+			var _this = $(this);
+			_this.on('mouseenter',function(){
+				if(_this.find('.img_sec').length > 0){					
+					_this.find('.img_main').hide();
+					_this.find('.img_sec').show();
+				}			
+			}).on('mouseleave',function(){
+				_this.find('.img_main').show();
+				_this.find('.img_sec').hide();
+			})
+		})
+		
+		//收藏弹窗
+		$(document).on('click','.pro_collect',function(){
+			var _this = $(this);
+			// var str = _this.html();
+			var id = _this.data('id');
+			var price = _this.attr('price');
+			var sku = _this.attr('sku');
+
+			if (!_this.hasClass('on')) {
+				var GoodsParams = {
+					id: id,
+					MainStones: '',
+					HandSizes: '',
+					MetalMaterials: "",
+					carved: '',
+					price: price,
+					sku : sku
+				};
+				$.post(collectionUrl, {data: GoodsParams}, function(res) {
+					switch (res.result) {
+						case -2:
+							$('.dr_sametc,.dr_blackwall, .Verifica_nobuy').hide();
+								$('.dr_Registsign,.dr_blackwall').show();
+								$('#papLogin').attr('src','https://passport.darryring.com/other');
+								window.loginInterval = setInterval(function() {
+									$.get('/ajax/login', function(res) {
+										if (res.result >= 0) {
+											clearInterval(window.loginInterval);
+											location.reload();
+										}
+									});
+								},1000);
+							break;
+						case 0:
+							// $('.dr_shopPopup,.dr_blackwall').show();
+							// $(".ringbuy_Button i.to_ysc").show();
+							// _this.hide();
+							_this.addClass('on');
+							showPopup();
+							break;
+						case -8:
+							alert(res.message);
+							break;
+						default:
+					}
+				});
+			} else {
+				var GoodsParams = {
+					id: id,
+					sku: sku
+				};
+				$.post(cannelcollectUrl, {data: GoodsParams}, function(res) {
+					switch (res.result) {
+						case -2:
+							$('.dr_sametc,.dr_blackwall, .Verifica_nobuy').hide();
+								$('.dr_Registsign,.dr_blackwall').show();
+								$('#papLogin').attr('src','https://passport.darryring.com/other');
+								window.loginInterval = setInterval(function() {
+									$.get('/ajax/login', function(res) {
+										if (res.result >= 0) {
+											clearInterval(window.loginInterval);
+											location.reload();
+										}
+									});
+								},1000);
+							break;
+						case 0:
+							// $(".ringbuy_Button i.to_nosc").show().html('已取消收藏');
+							// _this.hide();
+
+							_this.removeClass('on');
+							break;
+						case -1:
+							alert(res.message);
+							break;
+						default:
+					}
+				});
+			}
+			
+			
+		});
+		//关闭弹窗
+		$('.Popup_close').off('click').on('click',function(){
+			$('.dr_shopPopup').stop(false,false).fadeOut();
+			$('.dr_blackwall').stop(false,false).fadeOut();
+		});
+
+		//点击继续购物
+		$('.goto_shop').off('click').on('click',function(){
+			/*alert('121');*/
+			$('.dr_shopPopup').stop(false,false).fadeOut();
+			$('.dr_blackwall').stop(false,false).fadeOut();
+		});
+
+        //钻戒列表点击不同种类筛选时,筛选值的颜色、和筛选情况展示,针对a标签列表(没遍历的)
+		/*$('.drring_highsearch-same.weight a').on('click',function(){
+            $(this).addClass('xz');
+            $(this).css({'color': '#dbc7ba'});
+		});*/
+		
+		//添加筛选条件(爱的礼物)
+		// $("#highsearch .xz").each(function(){
+		// 	var url = '';
+		// 	if($(this).attr('dr-type') == 2) {
+		// 		url = $(this).data('href');
+		// 	} else {
+		// 		url = $(this).attr('href');
+		// 	}
+
+		// 	addsearch($(this).text(),$(this).attr('dr-type'),url);
+		// })
+
+		//添加筛选条件(求婚钻戒)
+		$("#highsearchDarry .xz").each(function(){
+			var url = $(this).attr('url');
+			// if($(this).attr('dr-type') == 2) {
+			// 	url = $(this).data('href');
+			// } else {
+			// 	url = $(this).attr('href');
+			// }
+			addsearch($(this).text(),$(this).attr('dr-type'),url);
+		})
+		// $('#highsearch a').die().live('click',function(){
+		// 	addsearch($(this).text(),$(this).attr('dr-type'));
+		// });
+		//移除筛选条件
+		$('#searchList a').die().live('click',function(){
+			$(this).remove();
+		});
+		//移除事件
+		$("#sortCort a").click(function(){
+		    $(this).unbind("click",addsearch);
+		    
+	  	});
+		//正则限制输入价格区间
+		var reg =  new RegExp('^([1-9][0-9]*)$');
+		$('#minPrice,#maxPrice').die().live('keyup',function(){
+			if(!reg.test($(this).val())){
+				$(this).val('');
+			}
+		});
+		// $('#priceBtn').live('click',function(){
+		// 	var minPrice = parseInt($('#minPrice').val());
+		// 	var maxPrice = parseInt($('#maxPrice').val());
+		// 	if(reg.test(minPrice) && !reg.test(maxPrice)){
+		// 		addsearch(minPrice+'以上',4);
+		// 		return;
+		// 	}else if(!reg.test(minPrice) && reg.test(maxPrice)){				
+		// 		addsearch(maxPrice+'以下',4);
+		// 		return;
+		// 	}else if(reg.test(minPrice) && reg.test(maxPrice)){	
+		// 		if(minPrice > maxPrice){
+		// 			return;
+		// 		}
+		// 		addsearch(minPrice+'-'+maxPrice,4);
+		// 		return;
+		// 	}
+		// });
+		$('#priceBtn').die().live('click',function(){
+			var minPrice = parseInt($('#minPrice').val());
+			var maxPrice = parseInt($('#maxPrice').val());
+			var url = $(this).attr('url');
+			if(reg.test(minPrice) && !reg.test(maxPrice)){
+				minPrice = '0-'+ minPrice;
+				// window.location.href = url + '?price=' + minPrice;
+				UrlUpdateParams(window.location.href, "price", minPrice);
+				
+				// addsearch(minPrice+'以上',4, url);
+				return;
+			}else if(!reg.test(minPrice) && reg.test(maxPrice)){		
+				maxPrice = maxPrice+'以下';
+
+				UrlUpdateParams(window.location.href, "price", maxPrice);
+
+				// addsearch(maxPrice+'以下',4, url);
+				return;
+			}else if(reg.test(minPrice) && reg.test(maxPrice)){	
+				if(minPrice > maxPrice){
+					return;
+				}
+
+				var price = minPrice+'-'+maxPrice;
+
+				UrlUpdateParams(window.location.href, "price", price);
+				
+				// addsearch(minPrice+'-'+maxPrice,4, url);
+				return;
+			}
+		});
+
+		//调用图片滚动组件(收藏夹里)
+		var Colectscrol = new Imgscroll().init({
+			id: '#shopPopup',
+			prev: '#shopPopup .thing_pre,#shopPopup .thing_preend',
+			next: '#shopPopup .thing_next,#shopPopup .thing_nextend',
+			scrollNum: 1,
+			theMag: 21,
+			theway:false,
+			ntendClass:'thing_nextend',
+			ntClass:'thing_next',
+			pendClass:'thing_preend',
+			peClass:'thing_pre'
+		});
+
+		// //饰品列表页价格区间搜索
+		// function btnPriceSearch(url) {
+		// 	console.log(123123);
+		// 	var txt1 = $("#minPrice").val();
+		// 	var txt2 = $("#maxPrice").val();
+		// 	if (txt1 == "" && txt2 == "") {
+		// 		alert("请输入搜索条件");
+		// 		return false;
+		// 	}
+		// 	window.location.href = url + "&price=" + txt1 + "-" + txt2;
+		// }
+
+
+		//点击关闭弹窗
+		$('.Popup_close,.goto_shop').off('click').on('click',function(){
+			$('.dr_sametc,.dr_blackwall, .Verifica_nobuy, .dr_shopPopup').hide();
+			clearInterval(window.loginInterval);
+			window.clearInterval(window.toUrl);
+		});
+
+		//商品搜索
+		$('#goodsSearch').click(function(){
+			goodsSearch();
+		});
+		$('#searchInput').on('keypress',function(e){
+			if(e.keyCode == 13){
+				goodsSearch();
+			}
+		});
+		function goodsSearch(){
+			var searchInput = $('#searchInput').val();
+			if ($.trim(searchInput) == "") {
+				searchInput = $('#searchInput').attr('placeholder');
+				// alert('请输入关键字!');
+				// return false;
+			}
+			var url = $('#goodsSearch').attr('url');
+			if(url.indexOf('?') <= -1){
+				url = url +"?searchKeyword=" + searchInput;
+			}else{
+				url = url + "&searchKeyword=" + searchInput;
+			}
+			// var url = window.location.origin + window.location.pathname + "?searchKeyword=" + searchInput;
+			window.location.href = url;
+		}
+
+		//显示隐藏系列筛选
+		$('.highsearchCort li').hover(function(){
+			$(this).addClass('active').siblings().removeClass('active');
+		},function(){
+			$(this).removeClass('active');
+		});
+	});	
+});
+//显示弹窗
+function showPopup(){		
+	$('.dr_blackwall,.dr_shopPopup').stop(false,false).show();
+}
+//添加筛选条件
+function addsearch(text,type,url){
+	var aList = $('#searchList a[dr-type="'+type+'"]');
+	if(aList.length>0){
+		aList.html(text);
+	}else{
+		$('#searchList').append('<a href="'+url+'" dr-type="'+ type +'">'+ text +'</a>');
+		$('.noresult h4').append(' ' +text+ '');
+	}
+}
+
+//饰品列表页价格区间搜索
+function btnPriceSearch(url) {
+	var txt1 = $("#minPrice").val();
+	var txt2 = $("#maxPrice").val();
+	if (txt1 == "" && txt2 == "") {
+		alert("请输入搜索条件");
+		return false;
+	}
+	window.location.href = url + "&price=" + txt1 + "-" + txt2;
+}
+
+//修改链接的数据
+function UrlUpdateParams(url, name, value) {
+   var r = url;
+   if (r != null && r != 'undefined' && r != "") {
+    value = encodeURIComponent(value);
+    var reg = new RegExp("(^|)" + name + "=([^&]*)(|$)");
+    var tmp = name + "=" + value;
+    if (url.match(reg) != null) {
+     r = url.replace(eval(reg), tmp);
+    }
+    else {
+     if (url.match("[\?]")) {
+      r = url + "&" + tmp;
+     } else {
+      r = url + "?" + tmp;
+     }
+    }
+   }
+   window.location.href = r;
+  }

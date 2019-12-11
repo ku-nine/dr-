@@ -1,0 +1,703 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  vertical-align: top;
+}
+
+.cl:before, .cl:after {
+  display: table;
+  content: "";
+}
+
+.clear:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.dr_header {
+  width: 100%;
+  background-color: #fff;
+}
+
+.dr_header .w {
+  width: 1360px;
+  height: 184px;
+  background-color: #fff;
+  margin: auto;
+  overflow: hidden;
+  margin-top: 24px;
+  position: relative;
+}
+
+.dr_header .w .fix {
+  width: 1360px;
+  height: 20px;
+  background-color: #fff;
+}
+
+.dr_header .w .fix .dr_left {
+  width: 200px;
+  height: 20px;
+  background-color: #fff;
+}
+
+.dr_left img {
+  float: left;
+  margin-bottom: 0;
+}
+
+.dr_header .w .fix .dr_left .dr_left_gps {
+  width: 40px;
+  height: 20px;
+  font-size: 12px;
+  float: left;
+  color: #bf967c;
+  margin-left: 4px;
+  margin-right: 26px;
+  float: left;
+}
+
+.dr_header .w .fix .dr_left .dr_left_shop {
+  width: 60px;
+  height: 12px;
+  font-size: 12px;
+  float: left;
+  color: #797979;
+  margin-right: 1px;
+}
+
+.dr_header .w .dr_right {
+  position: absolute;
+  width: 380px;
+  height: 20px;
+  margin-left: 975px;
+  float: left;
+  background-color: #fff;
+  float: left;
+  top: 0;
+}
+
+.dr_header .w .dr_right a {
+  color: #fff;
+  background-color: #8b766c;
+  font-size: 12px;
+  float: left;
+}
+
+.dr_header .w .dr_right .a {
+  width: 100px;
+  font-size: 12px;
+  color: #8b766c;
+  float: left;
+  margin: auto;
+  text-align: center;
+}
+
+.dr_header .w .dr_right .b {
+  width: 100px;
+  font-size: 12px;
+  color: #8b766c;
+  float: left;
+}
+
+.dr_header .w .dr_right .c {
+  width: 100px;
+  font-size: 12px;
+  color: #8b766c;
+  float: left;
+}
+
+.dr_logo {
+  position: absolute;
+  margin-left: 550px;
+  top: 2px;
+}
+
+.drmember_yzborder {
+  position: absolute;
+  right: 80px;
+  margin-top: 10px;
+}
+
+.drmember_yzborder .txtIDCardw {
+  width: 240px;
+  height: 29px;
+  position: relative;
+  border-color: 1px soild #8b766c;
+}
+
+.drmember_yzborder .txtIDCardw .trueLoveSeach {
+  position: absolute;
+  right: 0;
+  top: 4px;
+}
+
+.dr_nav {
+  width: 100%;
+  position: relative;
+  z-index: 999;
+}
+
+.dr_nav .kk {
+  width: 1360px;
+  height: 54px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.dr_nav .kk ul {
+  width: 1305px;
+  height: 54px;
+  margin-left: 10px;
+  overflow: hidden;
+}
+
+.dr_nav .kk ul li {
+  width: 145px;
+  height: 54px;
+  color: #333;
+  float: left;
+  text-align: center;
+  line-height: 54px;
+  font-size: 12px;
+}
+
+.dr_nav .kk ul li.a {
+  width: 145px;
+  height: 54px;
+  color: #8b766c;
+  float: left;
+  text-align: center;
+  line-height: 54px;
+  font-size: 12px;
+}
+
+.wrapBox {
+  width: 1360px;
+  height: 620px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.swiperBox {
+  overflow: hidden;
+  width: 6800px;
+  /* !!!!!!!!!!!!!!!!!!!!!!!! */
+  position: absolute;
+}
+
+.swiperBox li {
+  width: 1360px;
+  height: 620px;
+  /* display: none; */
+  text-align: center;
+  line-height: 620px;
+  font-size: 30px;
+  float: left;
+}
+
+.swiperBox .show {
+  display: block;
+}
+
+.swiperBox img {
+  /* width: 100%;hii */
+  width: 100%;
+  height: 100%;
+}
+
+.dotBox {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  border-radius: 20px;
+  left: 625px;
+  bottom: 0;
+}
+
+.dotBox li {
+  width: 10px;
+  height: 10px;
+  float: left;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.dotBox .active {
+  background-color: black;
+}
+
+.left,
+.right {
+  width: 45px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: 9999;
+}
+
+.right {
+  right: 0;
+}
+
+.dr_middle {
+  width: 100%;
+}
+
+.dr_middle .w {
+  width: 1360px;
+  height: 462px;
+  background-color: yellow;
+  margin: 20px auto;
+}
+
+.dr_middle .w .a {
+  width: 628px;
+  height: 462px;
+  background-image: url(../img/dr_13.jpg);
+  float: left;
+}
+
+.dr_middle .w .b {
+  width: 732px;
+  height: 462px;
+  background-color: #f5f1ee;
+  float: left;
+  position: relative;
+}
+
+.dr_middle .w .b .c {
+  width: 74px;
+  height: 78px;
+  background-color: #f5f1ee;
+  margin: 54px auto;
+  background-image: url(../img/dr_3.png);
+  background-size: 100%;
+}
+
+.dr_middle .w .b .e {
+  width: 732px;
+  height: 132px;
+  background-color: #f5f1ee;
+}
+
+.lovesearch_word {
+  margin-top: 30px;
+  font-size: 18px;
+  color: #493428;
+  line-height: 40px;
+  text-align: center;
+}
+
+.lovesearch_word .line {
+  border-bottom: 2px solid #8f7e74;
+  width: 33px;
+  margin: 10px auto 0;
+}
+
+.dr_middle .w .b .f {
+  width: 732px;
+  height: 140px;
+  background-color: #f5f1ee;
+}
+
+.dr_index {
+  width: 100%;
+  margin-top: 42px;
+}
+
+.dr_index .w {
+  width: 1360px;
+  height: 986px;
+  background-color: #fff;
+  margin: auto;
+  position: relative;
+}
+
+.dr_index .w .a {
+  width: 694px;
+  height: 622px;
+  float: left;
+  overflow: hidden;
+}
+
+.dr_index .w img:hover {
+  transition: .5s;
+  transform: scale(1.05);
+}
+
+.dr_index .w .b {
+  margin-left: 5px;
+  width: 650px;
+  height: 387px;
+  float: left;
+  overflow: hidden;
+}
+
+.dr_index .w .c {
+  width: 694px;
+  height: 330px;
+  float: left;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.dr_index .w .d {
+  margin-left: 5px;
+  width: 650px;
+  height: 567px;
+  float: left;
+  position: absolute;
+  top: 394px;
+  right: 10px;
+  overflow: hidden;
+}
+
+.dr_shop {
+  width: 100%;
+}
+
+.dr_shop .w {
+  width: 1360px;
+  height: 500px;
+  background-color: #f0f;
+  margin: auto;
+}
+
+.dr_shop .w .a {
+  width: 809px;
+  height: 500px;
+  float: left;
+}
+
+.dr_shop .w .b {
+  width: 551px;
+  height: 500px;
+  background-color: #ded8d2;
+  float: left;
+}
+
+.dr_shop .w .b .c {
+  width: 74px;
+  height: 78px;
+  background-color: #ded8d2;
+  margin: 54px auto;
+  background-image: url(../img/dr_3.png);
+  background-size: 100%;
+}
+
+.dr_shop .w .b .d {
+  width: 551px;
+  height: 42px;
+  overflow: hidden;
+}
+
+.dr_shop .w .b .d .e {
+  width: 354px;
+  height: 42px;
+  background-color: #8b766c;
+  margin: auto;
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.dr_shop .w .b .d .e span {
+  display: inline-block;
+  width: 116px;
+  height: 29px;
+  font-size: 14px;
+  color: #ded8d2;
+  line-height: 42px;
+  left: 54px;
+  position: absolute;
+}
+
+.dr_shop .w .b .d .e input {
+  width: 180px;
+  height: 42px;
+  margin-left: 130px;
+  background-color: #8b766c;
+  float: left;
+  border-color: transparent;
+  color: #fff;
+}
+
+.dr_shop .w .b .d .e a {
+  position: absolute;
+  top: 50%;
+  margin-top: -11px;
+  right: 20px;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background: url(//res.darryring.com/webimg/common/ico-wseach.png) no-repeat center center;
+}
+
+.dr_shop .w .b .f {
+  width: 354px;
+  height: 42px;
+  background-color: #fff;
+  margin: auto;
+  position: relative;
+  margin-top: 30px;
+  text-align: center;
+  line-height: 42px;
+  color: #8b766c;
+}
+
+.dr_shop .w .b .f:hover {
+  background-color: #8b766c;
+  color: #fff;
+}
+
+.dr_img {
+  width: 100%;
+}
+
+.dr_img .w {
+  width: 1360px;
+  height: 396px;
+  background-color: #fff;
+  margin: 20px auto;
+}
+
+.dr_img .w ul li {
+  width: 420px;
+  height: 396px;
+  margin-left: 28px;
+  float: left;
+  position: relative;
+}
+
+.dr_img .w ul li img {
+  width: 100%;
+  height: 100%;
+}
+
+.dr_img .w ul li p {
+  display: inline-block;
+  width: 396px;
+  height: 18px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  color: #fff;
+}
+
+.dr_icon {
+  width: 100%;
+}
+
+.dr_icon .w {
+  width: 1360px;
+  height: 150px;
+  margin: auto;
+}
+
+.dr_icon .w ul {
+  width: 1200px;
+  height: 150px;
+  margin: 0 80px;
+}
+
+.dr_icon .w ul li {
+  float: left;
+  width: 86px;
+  text-align: center;
+  margin: 0 31px;
+  padding-top: 30px;
+}
+
+.dr_icon a {
+  width: 86px;
+  height: 90px;
+  background-color: #fff;
+}
+
+.dr_icon i {
+  width: 60px;
+  height: 60px;
+}
+
+.dr_icon span {
+  height: 14px;
+  display: inline-block;
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+}
+
+.dr_tint {
+  width: 100%;
+}
+
+.dr_tint .w {
+  width: 1360px;
+  height: 320px;
+  background-color: #fff;
+  margin: auto;
+}
+
+.dr_tint ul {
+  margin: auto;
+  width: 1200px;
+  height: 98px;
+  padding: 50px;
+  overflow: hidden;
+  height: 98px;
+  font-size: 12px;
+  line-height: 22px;
+}
+
+.dr_tint li {
+  width: 164px;
+  height: 98px;
+  float: left;
+}
+
+.dr_tint li a {
+  display: inline-block;
+  width: 164px;
+  color: #666;
+}
+
+.dr_tint li h4 {
+  color: #666;
+}
+
+.drfocus {
+  width: 1200px;
+  height: 100px;
+  margin: auto;
+  text-align: center;
+  color: #666;
+}
+
+.dr_declare {
+  width: 100%;
+}
+
+.dr_declare .w {
+  width: 1360px;
+  height: 70px;
+  background-color: #fff;
+  margin: auto;
+}
+
+.dr_a {
+  width: 1260px;
+  height: 70px;
+  margin: 0 50px;
+  background-color: #888;
+  position: relative;
+}
+
+.dr_fl {
+  width: 396px;
+  height: 70px;
+  margin-left: 50px;
+}
+
+.dr_fl a {
+  width: 48px;
+  height: 12px;
+  color: #c2c2c2;
+  font-size: 12px;
+  line-height: 70px;
+  margin-right: 14px;
+  float: left;
+}
+
+.dr_fl p {
+  width: 48px;
+  height: 12px;
+  color: #ddd;
+  font-size: 12px;
+  float: left;
+  line-height: 70px;
+}
+
+.dr_fl h6 {
+  display: block;
+  width: 78px;
+  height: 44px;
+  padding-left: 22px;
+  color: #c2c2c2;
+  font-size: 12px;
+  line-height: 70px;
+  float: left;
+}
+
+.dr_fl b {
+  width: 186px;
+  float: left;
+  position: relative;
+}
+
+.dr_fl b a {
+  width: 48px;
+  height: 12px;
+  margin-right: 14px;
+  font-size: 12px;
+  color: #c2c2c2;
+  float: left;
+}
+
+.dr_fl span {
+  display: inline-block;
+  width: 40px;
+  height: 28px;
+  margin-top: 21px;
+  position: absolute;
+  top: 0;
+  left: 500px;
+}
+
+.dr_ri {
+  width: 600px;
+  height: 70px;
+  float: left;
+}
+
+.dr_ri a {
+  color: #ddd;
+  font-size: 12px;
+  line-height: 70px;
+  position: absolute;
+  top: 0;
+  right: 200px;
+}
+
+.dr_last {
+  width: 128px;
+  height: 52px;
+  position: absolute;
+  right: 5px;
+  top: 9px;
+}
+
+/*# sourceMappingURL=homePage.css.map */

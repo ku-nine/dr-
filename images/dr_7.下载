@@ -1,0 +1,430 @@
+/*
+ * 底部入口模块
+ * 2015-06-27 14:00
+ * */
+define(function(require,exports,module){
+	/*通过 require 引入依赖*/
+	require('jquery');
+        require('js/modules/json2.js');
+	var drToggle = require('js/modules/drtoggle.js');  
+	$(function(){
+
+		//定位用户所在城市
+        /*if(typeof(display)!="undefined"){4*/
+        	var erp_shop_id = getCookie('erp_shop_id');
+        	var res = getCookie('user_city_store');//一家店铺
+        	if (erp_shop_id != null) {
+        		$.get('/getCityByErpId', {erp_shop_id:erp_shop_id},function(res) {
+                    //实体店列表预约进店弹窗
+                    if(res.result == 0)
+                    {
+	                    $('.drmember_shop .drmember_gps').html(res.data['cityName']);//头部显示城市
+	                    $('.dr_shopOrdActive span').html(res.data['cityName']);
+	                    $('.dr_shopOrdActive span').attr('onclick', "javascript:location.href='shopyd?search="+res.data['cityName'] + "'");
+	                    /*$('#shop_name').attr('placeholder', res['shop_name'])//实体店显示定位店铺名称*/
+	                    //$('.dr_shopOrdered .dr_shopOrdBtn').attr('href', '/store/shw-'+res['shop_url'])//实体店显示定位店铺名称
+	                    $('.locationShop').html(res.data['name']);
+	                    $('.locationShop').attr('data-info', res.data['id']);
+	                    $('.locationShop').attr('data-open', res.data['open']);
+	                    $('.dr_shopOrdered .dr_shopOrdBtn').attr('href', '/shopyd?search='+res.data['cityName'])//实体店显示定位店铺名称
+                    } else {
+                    	$('#shopment_choose').show().siblings().hide();
+                    }
+
+	            });
+        	}else if(res == null) {
+	            $.get('/getUserCity?type=0', function(res) {
+	            		setCookie('user_city_store', JSON.stringify(res));
+	                    //实体店列表预约进店弹窗
+	                    if(res['city'] != '')
+	                    {
+		                    $('.drmember_shop .drmember_gps').html(res['city']);//头部显示城市
+		                    $('.dr_shopOrdActive span').html(res['city']);
+		                    $('.dr_shopOrdActive span').attr('onclick', "javascript:location.href='shopyd?search="+res['city'] + "'");
+		                    /*$('#shop_name').attr('placeholder', res['shop_name'])//实体店显示定位店铺名称*/
+		                    //$('.dr_shopOrdered .dr_shopOrdBtn').attr('href', '/store/shw-'+res['shop_url'])//实体店显示定位店铺名称
+		                    $('.locationShop').html(res['shop_name']);
+		                    $('.locationShop').attr('data-info', res['shop_id']);
+		                    $('.locationShop').attr('data-open', res['open']);
+		                    $('.dr_shopOrdered .dr_shopOrdBtn').attr('href', '/shopyd?search='+res['city'])//实体店显示定位店铺名称
+	                    } else {
+	                    	$('#shopment_choose').show().siblings().hide();
+	                    }
+
+	            });
+        	} else {
+        		res = JSON.parse(res);
+        		if(res.city != ''){
+                    $('.drmember_shop .drmember_gps').html(res.city);//头部显示城市
+                    $('.dr_shopOrdActive span').html(res['city']);
+		            $('.dr_shopOrdActive span').attr('onclick', "javascript:location.href='shopyd?search="+res['city'] + "'");
+                    /*$('#shop_name').attr('placeholder', res['shop_name'])//实体店显示定位店铺名称*/
+                    //$('.dr_shopOrdered .dr_shopOrdBtn').attr('href', '/store/shw-'+res.shop_url)//实体店显示定位店铺名称
+                    $('.locationShop').html(res.shop_name);
+                    $('.locationShop').attr('data-info', res.shop_id);
+                    $('.locationShop').attr('data-open', res.open);
+                    $('.dr_shopOrdered .dr_shopOrdBtn').attr('href', '/shopyd?search='+res['city'])//实体店显示定位店铺名称
+                } else {
+                	$('#shopment_choose').show().siblings().hide();
+                }
+        	}
+
+        /*}*/
+		
+		/*回到顶部*/
+		$('.dr_totop').off('click').on('click',function(){
+			$("html,body").stop(true, false).animate({ "scrollTop": 0 + 'px' }, 300);
+		});
+		
+		/*显示隐藏侧边栏工具*/
+		var scrollTop = '';
+		var offon = true;
+		checkScroll();
+		$(window).scroll(function(){			
+		    checkScroll();
+		});		
+		function checkScroll() {
+		    scrollTop = $(document).scrollTop();
+		    if (scrollTop >= 200 & offon) {
+		    	offon = false;
+		        //$('#dr-quickservice').show();
+		        $('.dr_totopView .dr_totop,.dr_totopView .dr_quick-wordGoTop').css('display','block');
+	        	$('.dr_totopView').off('mouseenter').on('mouseenter',function(){
+					$(this).addClass('dr_quickcort-hover').find('.dr_quick-wordGoTop').stop(false,false).animate({right:'50px',opacity:1},500).show();
+				}).off('mouseleave').on('mouseleave',function(){			
+					$(this).removeClass('dr_quickcort-hover').find('.dr_quick-wordGoTop').stop(false,false).animate({right:'0',opacity:0},500).hide();
+				});
+
+		    } else if (scrollTop <= 200) {
+		        //$('#dr-quickservice').hide();
+		        $('.dr_totopView .dr_totop,.dr_totopView .dr_quick-wordGoTop').css('display','none');
+		        $('.dr_totopView').off('mouseenter').off('mouseleave');
+		    } else {
+		        //$('#dr-quickservice').show();
+		        $('.dr_totopView .dr_totop,.dr_totopView .dr_quick-wordGoTop').css('display','block');
+	        	$('.dr_totopView').off('mouseenter').on('mouseenter',function(){
+					$(this).addClass('dr_quickcort-hover').find('.dr_quick-wordGoTop').stop(false,false).animate({right:'50px',opacity:1},500).show();
+				}).off('mouseleave').on('mouseleave',function(){			
+					$(this).removeClass('dr_quickcort-hover').find('.dr_quick-wordGoTop').stop(false,false).animate({right:'0',opacity:0},500).hide();
+				});
+		    }
+		};
+
+		initShow(); //进入页面显示侧边栏客服语句提示
+		function initShow(){
+	        
+	        $('.droline_kfword').animate({left:'-230px',opacity:1},500).show();
+	        $('.droline_kfword p').animate({ width: '220px', height: '48px' }, 1000);
+
+
+	        var display = getCookie("is_display");
+
+	        var url = window.location.href;
+	        url = url.split('/');
+	        var timestamp = parseInt(new Date().getTime() / 1000);//当前时间戳
+
+	        if(url.length <= 4 && display == null && '1484928000' > timestamp ) {
+	        	if('1482681600' > timestamp ){
+	        		$('.dr_Reminder p').html('亲爱的DR族，在圣诞<br />繁忙期间，为了确保您<br />定制的DR可以<br />及时送达，建议您提<br />前选购商品哦。详情请<br />咨询客服。');
+	        	}	
+
+	        	$('.dr_Reminder').animate({left:'-216px',opacity:1},500).show();
+			 	setCookie('is_display', 1);
+	        } else {
+	        	$(".dr_Reminder").hide();
+	        }
+	        setTimeout(hidetcword,6000);
+		}
+
+
+		//侧边工具栏提示效果
+		$('.dr_quick-cort').off('mouseenter').on('mouseenter',function(){
+			$(this).addClass('dr_quickcort-hover').find('.dr_quick-word').stop(false,false).animate({right:'50px',opacity:1},500).show();
+		}).off('mouseleave').on('mouseleave',function(){			
+			$(this).removeClass('dr_quickcort-hover').find('.dr_quick-word').stop(false,false).animate({right:'0',opacity:0},500).hide();
+		});
+		//底部帮助中心分享
+		var draboutUs = new drToggle().init({
+			id:'#dr_help-gz',
+			action:'.dr_help-all .comShare'
+		});	
+		//点击关闭客服文字
+		$('.droline_kfword span').click(function(){
+			hidetcword();
+			offon = false;
+			return false;
+		});
+		//点击关闭温馨提示
+		$('.dr_Reminder span').click(function(){
+			$('.dr_Reminder').animate({left:'0',opacity:0},500);
+			return false;
+		});
+		
+		//点击出现客服弹窗(2016.8.8)
+		$('.droline_showkf').click(function(){
+			$('.dr_blackwall,.drKf_tc').show();
+		});
+		//点击客服弹窗消失
+		$('.drKf_close').click(function(){
+			$('.dr_blackwall,.drKf_tc').hide();
+		});		
+
+		//切换快捷服务类型
+		$('.drKf_Type i').off('click').on('click',function(){
+			$('.drKf_Type i').removeClass('typeClicked');
+			$(this).addClass('typeClicked');
+		})
+		//提交快捷预约
+		/*$('.drKf_sub').off('click').on('click',function(){
+			$('.drKf_tc').hide();
+			$('.dr_quickOrder').show();	
+			setTimeout(function(){
+				$('.dr_quickOrder,.dr_blackwall').hide();
+			},3000)
+		});*/
+		//关闭快捷预约提示
+		$('.tc_close').off('click').on('click',function(){
+			$('.dr_quickOrder,.dr_blackwall').stop(false,false).fadeOut();	
+		});	
+
+		
+		showtcword();
+		//底部后台程序js代码处
+
+		//修改登录链接，加回跳地址。
+		var loginurl = 'http://passport.darryring.com/login?forward='+encodeURIComponent(window.location.href);
+
+		$("#long_status a:first").attr('href', loginurl);
+		
+		//公用弹窗关闭交互
+		$('.dr_sametcClose').off('click').on('click',function(){
+			hideDefaultPop();
+		});	
+		$('.drKf_num').focus(function(){
+			$('.drKf_tips').hide();
+		});
+		$('.drKf_sub').off('click').on('click',function(){
+			var is_check = $('.drKf_check').attr('data');
+			if(is_check > 0){
+				$('.drKf_tips').text('*系统繁忙，稍后重试');
+				$('.drKf_tips').show();
+				//alert('系统繁忙，稍后重试');
+				return false;
+			}
+			$('.drKf_check').attr('data',1);
+			var type = $('.typeClicked').attr('data');
+			var phone = $('.drKf_num').val();
+			if(phone == ''){
+				$('.drKf_check').attr('data',0);
+				$('.drKf_tips').text('*请输入手机号');
+				$('.drKf_tips').show();
+				//alert('请输入手机号');
+				return false;
+			} else {
+				if(!checkMobile(phone)){
+					$('.drKf_check').attr('data',0);
+					$('.drKf_tips').text('*请输入正确的手机号');
+					$('.drKf_tips').show();
+					//alert('请输入正确的手机号');
+					return false;
+				}
+			}
+			//
+			$.post('/ajax/quickService', {type: type,phone: phone}, function (res) {
+				if(res.result < 0){
+					$('.drKf_tips').text('*'+res.message);
+					$('.drKf_tips').show();
+					//alert(res.message);
+				} else {
+					$('.drKf_tc').hide();
+					$('.dr_quickOrder').show();
+					setTimeout(function(){
+						$('.dr_quickOrder,.dr_blackwall').hide();
+					},3000)
+				}
+				$('.drKf_check').attr('data',0);
+			});
+                        
+                        
+		});
+                
+    	$('.coupleRing a').click(function(){
+            var val = $('.coupleRing').find('input:text').val();
+            val = val.replace(/[\s\r\n]/mg, '');
+            if (val == '') {
+                    val = $('.coupleRing').find('input:text').prop('placeholder');
+            }
+            var url = location.href.split('?')[0];
+            location.href = url + '?searchKeyword=' + val;
+        });
+        
+        //加载udesk客服
+		isloaduk = false;
+		var customer = {};
+		function loadudesk() {
+			isloaduk = true;
+			$.get("/udesk/webtoken",function(res){
+				//咨询统计pvid
+				var dr_aws_pvid = '_dr-aws-pv-';
+				if (typeof(_dr) != 'undefined') {
+					dr_aws_pvid += _dr.pvid();
+				}
+				if (res.data.is_login){
+					customer = {
+						"c_name": res.data.user.id,
+						"c_cn_title": dr_aws_pvid,
+						"c_cn_dr_aws_pvid": "dr_aws_pvid",
+						"nonce": res.data.udesk.nonce,
+						"signature": res.data.udesk.signature,
+						"timestamp": res.data.udesk.timestamp,
+						"web_token": res.data.udesk.web_token
+					};
+				}else {
+					customer = {
+						"c_cn_title": dr_aws_pvid,
+						"c_cn_dr_aws_pvid": "dr_aws_pvid",
+						"nonce": res.data.udesk.nonce,
+						"signature": res.data.udesk.signature,
+						"timestamp": res.data.udesk.timestamp,
+						"web_token": res.data.udesk.web_token
+					};
+				}
+				(function(a, h, c, b, f, g) {
+					a["UdeskApiObject"] = f;
+					a[f] = a[f] || function() {
+						(a[f].d = a[f].d || []).push(arguments)
+					};
+					g = h.createElement(c);
+					g.async = 1;
+					g.src = b;
+					c = h.getElementsByTagName(c)[0];
+					c.parentNode.insertBefore(g, c)
+				})(window, document, "script", "//assets-cli.udesk.cn/im_client/js/udeskApi.js", "ud");
+
+				ud({
+					"code": "1eb5ghj1",
+					"link": "//darry.udesk.cn/im_client?web_plugin_id=23960&group_id=43569",
+					"selector": '.drsqkfli,.drshkfli',
+					"color": "#8b766c",
+					"customer": customer,
+					"css": {
+						 "display": "none"
+					}
+				});
+			});
+		}
+		// loadudesk();
+		//追加客服预约的事件监听
+		$('.drsqkfli,.drshkfli').bind('click', function(){
+			ag_zxkf_fix();
+		});
+		
+		//在tips下的js
+		function getCookieByName(name) {
+	  		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	  		if(arr=document.cookie.match(reg))
+	  			return unescape(arr[2]);
+  			else
+  			return null;
+		}
+		function setCookieNew(c_name,value,expiredays)
+		{
+			var exdate=new Date();
+			exdate.setDate(exdate.getDate()+expiredays);
+			document.cookie=c_name+ "=" + escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())+";domain=.darryring.com;path=/";
+		}
+	
+
+		
+		$('.addDr-btn').on('click', function () {
+		    $('.givingLM-pop, .dr_blackwall').show();
+		})
+		$('.givingLM-pop .close-btn, .givingLM-pop  .sure-btn').on('click', function () {
+		    $('.givingLM-pop, .dr_blackwall').hide();
+		})
+
+
+
+		//显示新人礼弹窗
+		$('#newGiftIcon').off('click').on('click',function(){
+			$('#getNewGiftBox,.dr_blackwall').stop(false,false).fadeIn();	
+			_this.init({'account': 'DarryRing-PC', 'event': 'newpacket'});
+		});
+		
+		//关闭新人礼弹窗
+		$('.givingLM-pop .close-btn').off('click').on('click',function(){
+			$('.givingLM-pop,.dr_blackwall').stop(false,false).fadeOut();	
+		});	
+		
+		//首页新人注册礼包弹窗
+	    var name = 'new_user';
+		var newUser = getCookie(name);
+		if(is_login && getCookie('new_user_is_display') != 1) {
+			setCookie('new_user_is_display',1);
+			if(newUser == 1){
+				$('#goNewGiftBox,.dr_blackwall').show();
+			} else {
+				if(is_source == 1){
+					$('#hasNewGiftBox,.dr_blackwall').show();
+				}
+			}
+		}
+		
+	});
+});
+
+/*随机显示文字*/
+function showtcword(){
+	var wordlen = 6;
+	var wordNum = Math.floor(Math.random()*wordlen);
+	var wordshow = new Array(wordlen);
+	wordshow[0]="想了解更多钻石知识<br/>我们有专业在线客服给您解答";
+	wordshow[1]="定制合适的戒指手寸<br/>可以联系客服协助您进行估算";
+	wordshow[2]="挑选满意的戒指款式<br/>在线客服可以给您提供建议";
+	wordshow[3]="购买过程遇到问题<br/>直接联系在线客服解决";
+	wordshow[4]="想了解钻戒定制流程<br/>在线客服可以给您介绍说明";
+	wordshow[5]="欢迎光临DR<br/>有问题客服都可以帮您解答";
+	$('.droline_kfword p').html(wordshow[wordNum]);	
+}
+/*关闭客服文字弹窗*/
+function hidetcword(){
+	$('.droline_kfword').animate({left:'0',opacity:0},500);
+}
+
+function setCookie(c_name,value,expiredays)
+{
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate()+expiredays);
+	document.cookie=c_name+ "=" + escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+}
+
+function getCookie(name)
+{
+	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	if(arr=document.cookie.match(reg)){
+		return unescape(arr[2]);
+	} else {
+		return null;
+	}
+}
+
+//公用显示提示弹窗
+function showDefaultPop(){
+	$('.dr_sametcMain,.dr_blackwall').show();
+}
+//公用隐藏提示弹窗
+function hideDefaultPop(){
+	$('.dr_sametcMain,.dr_sametcView,.dr_blackwall').hide();
+}
+
+//禁止滚动条滚动
+function unScroll() {
+	var top = $(document).scrollTop();
+	$(document).on('scroll.unable',function (e) {
+        $(document).scrollTop(top);
+	})
+}
+//去除禁止滚动条滚动
+function removeUnScroll() {
+   $(document).unbind("scroll.unable");
+}

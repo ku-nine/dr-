@@ -1,0 +1,255 @@
+/*
+ * 首页入口模块
+ * 2015-06-27 14:00
+ * */
+define(function(require,exports,module){
+	/*通过 require 引入依赖*/
+	require('jquery');
+	var Banner = require('js/modules/banner.js');
+	var twoTabs = require('js/modules/twoTabs.js');
+	/*require('js/modules/snowstorm.js');*/
+	  
+	$(function(){
+ 	  
+		//配置雪花
+        /*snowStorm.start();*/
+        
+        $('.closeTopTips').off('click').on('click',function(){
+			$('.top_announce').hide();
+		})
+
+		//调用banner组件
+		if ($('#drHomeBan li').size() > 1) {
+	    	var indexBan = new Banner().init({
+			 	id:'#drHomeBan',
+			 	btnListId:'#drHomeBanxd',
+			 	btnListClass:'drbanner_click',
+	            nextBtn:'#drbanNext',
+	            prevBtn:'#drbanPrev'
+			 });
+	  	}else{
+	  		$('#drHomeBanxd').remove();
+	  		$('.dr_banner .drbanBtn').remove();
+	  	} 
+		 
+		//首页店铺故事轮播
+		if ($('#drShopShow li').size() > 1) {
+	    	var shopStrong = new Banner().init({
+			 	id:'#drShopShow',
+			 	btnListId:'#drShopIndex',
+			 	btnListClass:'active'
+			});
+	  	}else{
+	  		$('#drShopIndex').remove();
+	  	}
+		//店铺banner
+		$('.drstore-shopul').each(function(index){
+			new Banner().init({
+				id: $(this),
+				btnListId:$(this).next('.drshop_xdcort').find('ul.drbanner_xd'),
+				btnListClass:'drbanner_click'
+			});		 
+		});
+		//店铺区域切换效果
+		var shopTabs = new twoTabs().init({
+			id:'#drstore-tab',
+			firstWidth:128,
+			otherWidth:140,
+			timer: 500
+		});
+		
+		//系列推广交互效果
+		$('.dr_indexAdvItem img').off('mouseenter').on('mouseenter',function(){
+			$(this).addClass('active');
+		}).off('mouseleave').on('mouseleave',function(){
+			$(this).removeClass('active');
+		});
+		
+		//爱的礼物交互效果
+		$('#drGiftTab li').each(function(index){
+			$(this).off('mouseenter').on('mouseenter',function(){
+				$('#drGiftView .dr_giftItem').hide();
+				$('#drGiftView .dr_giftItem').eq(index).show();
+			});
+		});
+
+		//点击出现视频播放
+		$(document).on("click", ".dr_banPlay", function(){ 
+			$(this).addClass('active').siblings().removeClass('active');
+			var firstsrc = $(this).attr('firstsrc');
+			var secsrc = $(this).attr('secsrc');
+			$('.video_tc').append('<video width="1200px" controls="controls" id="myVideo2"><source src="'+firstsrc+'" type="video/mp4"><source src="'+secsrc+'" type="video/webm"></video>')
+			checkVideo1();
+		});
+		//点击出关闭视频
+		$(document).on("click", ".spclose", function(){ 
+			$('.video_tc,.dr_blackwall').hide();
+			$('#myVideo2').trigger('pause');
+			$('.video_tc video').remove();
+		});
+
+
+		//点击根据城市搜索店铺
+		$('#shopSearch').off('click').on('click',function(){
+			shopSearch();
+		});
+		$('#shop_name').off('keypress').on('keypress',function(e){        	
+        	if(e.keyCode == 13){        		        		
+        		shopSearch();
+        	}
+        })
+        function shopSearch(){        	
+        	var city_name = $('.dr_shopOrdActive span').text();//城市名称
+			var shop_name = $('#shop_name').attr('placeholder');//输入框里的内容
+			var search = $('#shop_name').val();//输入框里的内容
+
+			if(city_name != '实体店' && shop_name != '请输入城市名称如：深圳' && search == ''){
+				var shop_url = $('.dr_shopOrdered .dr_shopOrdBtn').attr('href');
+				window.location.href = shop_url;
+			}
+
+			if(city_name != '实体店' && search != '' || city_name == '实体店' && search != ''){
+				window.location.href = '/shopyd?search='+search;
+			}
+
+
+			/*if(city_name == '实体店' && search != ''){
+				window.location.href = '/shopyd?search='+search;
+			}*/
+	
+			if(city_name == '实体店' && search == ''){
+				window.location.href = '/shopyd';
+			}
+
+			if(city.length == 0 || city.match(/^[\u4e00-\u9fa5]+$/) == null ){
+				// alert('请输入城市名称搜索店铺');
+				window.location = shopList;
+				return false;
+			}
+
+			/*$("#searchShopForm").submit();*/
+        }
+		
+		//根据IP判断 显示弹窗OR语言选择
+        $.get(langChooseUrl, function (res) {
+
+        	var url = location.search;  
+		    var urlio = url.indexOf("?");
+
+            if(res.result == 0){
+                //判断是否展示过
+                var display = getCookie("is_langchoose");
+                if (display == '' || display == null || display == undefined) {
+                    //国外
+                    showLang();
+                }else{
+                    if (urlio != -1){
+				    	var typesrc = url.substring(urlio+6,url.length);
+        				var typesrc1 = url.substring(urlio+1,urlio+12);
+						if(typesrc == 'newgift'){
+							$('#getNewGiftBox,.dr_blackwall').stop(false,false).fadeIn();
+						}else if(typesrc1 == 'is_source=1'){
+							return false;
+						}else{
+			                ToshowTC();
+						}
+				    }else{
+				    	ToshowTC();
+				    }
+                }
+            }else{
+                if (urlio != -1){
+			    	var typesrc = url.substring(urlio+6,url.length);
+    				var typesrc1 = url.substring(urlio+1,urlio+12);
+					if(typesrc == 'newgift'){
+						$('#getNewGiftBox,.dr_blackwall').stop(false,false).fadeIn();
+					}else if(typesrc1 == 'is_source=1'){
+						return false;
+					}else{
+		                ToshowTC();
+					}
+			    }else{
+			    	ToshowTC();
+			    }
+            }
+        });	
+	});
+
+	//首页是否显示弹窗
+    function ToshowTC() {
+        var display = getCookie("is_display");
+        if (display == '' || display == null || display == undefined) {
+           // require("holiday/Husband/js/Husband");           
+            // require("holiday/drMidAutumn/js/drMidAutumn");
+			// require("holiday/drChristmas/js/drChristmas");
+			require("holiday/winter/js/drWinter");
+            /*require("holiday/lockme/js/lockme");*/
+            setIndexCookie('is_display', 1)
+        }
+    }
+    //是否显示语言弹窗
+    function showLang() {
+        var display = getCookie("is_langchoose");
+        if (display == '' || display == null || display == undefined) {
+            require("js/page/langchoose");
+            /*require("holiday/lockme/js/lockme");*/
+            setCookie('is_langchoose', 1);
+        }
+    }
+
+    function setIndexCookie(c_name,value,expiredays)
+    {
+        var exdate=new Date();
+        var tomorrowDay= new Date(exdate.getFullYear()+'/'+ (exdate.getMonth()+ 1)+ '/'+ (exdate.getDate() + 1)+' 08:00:00') ;
+        document.cookie=c_name+ "=" + escape(value)+ ";expires="+ tomorrowDay.toGMTString();
+    }
+
+
+
+});
+
+
+//定时消失
+function indexwronghide() {
+    $('#dr_sfwrong').hide();
+    $("#dr_sfwrong").html("<p>DR严格规定男士凭证件一生仅能定制一枚，象征男人一生真爱的最高承诺。输入证件号码即可查询购买记录。</p>");
+    $("#dr_sfwrong").addClass("index_yz-word");
+    $("#dr_sfwrong").removeClass("drmember_yz-wrong");
+}
+//检查浏览器是否支持video
+function checkVideo1() {
+    if (!!document.createElement('video').canPlayType) {
+        var vidTest = document.createElement("video");
+        oggTest = vidTest.canPlayType('video/ogg; codecs="theora, vorbis"');
+        if (!oggTest) {
+            h264Test = vidTest.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+            if (!h264Test) {
+                //不支持video使用flash
+            }
+            else {
+                if (h264Test == "probably") {
+                    //支持video使用video
+                    $('.video_tc,.dr_blackwall').show();
+					$('#myVideo2').trigger('play');
+                }
+                else {
+                }
+            }
+        }
+        else {
+            if (oggTest == "probably") {
+                $('.video_tc,.dr_blackwall').show();
+				$('#myVideo2').trigger('play');
+            }
+            else {
+            }
+        }
+    }
+    else {
+    	//不支持video使用flash
+        
+    }
+}
+
+
+

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/goods.css">
+    <script src="/js/jquery-1.10.1.min.js"></script>
+</head>
+
+<body>
+    <div class="dr_header">
+        <div class="w">
+            <div class="fix">
+                <div class="dr_left">
+                    <img src="/img/1.jpg" alt="">
+                    <div class="dr_left_gps">武汉</div>
+                    <div class="dr_left_shop">全国店铺></div>
+
+                </div>
+                <div class="dr_right">
+                    <a href="" class="op_btn">注册/登录</a>
+                    <div class="a">中文/简体</div>
+                    <div class="b">400 01 13520</div>
+                    <div class="c">天猫旗舰店</div>
+                </div>
+            </div>
+            <div class="dr_logo">
+                <img src="/img/dr_2.png" alt="">
+            </div>
+            <div class="drmember_yzborder">
+                <input type="text" placeholder="请输入身份证号验证真爱承诺" name="identity" value="" class="txtIDCardw">
+
+                <i class="trueLoveSeach">
+                    <img src="/images/27.png" alt="">
+                </i>
+            </div>
+        </div>
+    </div>
+    <div class="dr_nav">
+        <div class="kk">
+            <ul class="">
+                <li class="a">DR</li>
+                <li>求婚钻戒</li>
+                <li>结婚对戒</li>
+                <li>真爱礼物</li>
+                <li>明显推荐</li>
+                <li>钻戒定制</li>
+                <li>真爱体验店</li>
+                <li>DR品牌文化</li>
+                <li>探索DR</li>
+            </ul>
+        </div>
+    </div>
+<div class="goodsbox">
+    <div class="w">
+        <h3>商品详情页</h3>
+</div>
+</div>
+<div id="box">
+    <div id="top">
+        <img id="smallimg" src="/images/dr_1.jpg" draggable="false">
+        <div id="shadow"></div>
+        <div id="bigshadow">
+                <img id="bigimg" src="/images/dr_1.jpg" draggable="false">
+            </div>
+    </div>
+    <ul class="nav">
+        <li data-small="/images/dr_1.jpg" data-big="/images/dr_1.jpg"> <img src="/images/dr_1.jpg" draggable="false"></li>
+        <li data-small="/images/dr_2.jpg"  data-big="/images/dr_2.jpg"> <img src="/images/dr_2.jpg" draggable="false"></li>
+        <li data-small="/images/dr_3.jpg" data-big="/images/dr_3.jpg"> <img src="/images/dr_3.jpg" draggable="false"></li>
+        <li data-small="/images/dr_4.jpg" data-big="/images/dr_4.jpg"> <img src="/images/dr_4.jpg" draggable="false"></li>
+    </ul>
+</div>
+<div class="dr_choose">
+     <h2>JUST YOU系列 浪漫款 50分 H色</h2>
+      <p>¥35749</p>
+      <div class="dr_ao">
+        <ul>
+            <li>近期售出:0</li>
+            <li>评价:30</li>
+            <li>武汉</li>
+        </ul>
+      </div>
+      <div class="dr_meter">
+          <ul>
+              <li>主钻重量:50分</li>
+              <li>钻石颜色:H色</li>
+              <li>钻石净度:VS2</li>
+              <li>钻石切工:EX</li>
+          </ul>
+      </div>
+      <div class="dr_sec">
+         <h4>戒指材质:</h4>
+          <ul>
+              <li>PT905</li>
+              <li>黄18k金</li>
+              <li>白18k金</li>
+              <li>红18k金</li>
+          </ul>
+      </div>
+      <div class="dr_hand">
+          <h4>选择手寸:</h4>
+          <select name="" id="">
+                <option value="">选择手寸</option>
+                <option value="">6</option>
+                <option value="">7</option>
+                <option value="">8</option>
+                <option value="">9</option>
+                <option value="">10</option>
+                <option value="">11</option>
+                <option value="">12</option>
+                <option value="">13</option>
+                <option value="">14</option>
+            </select>
+      </div>
+      <div class="dr_confrim">
+          <div class="shopping_car">加入购物车</div>
+          <div class="buy"> 立即购买</div>
+      </div>
+      
+</div>
+</body>
+<script>
+var nav = document.querySelector(".nav");
+    var smallImg = document.getElementById("smallimg");
+    var bigImg = document.getElementById("bigimg");
+    var bigShadow = document.getElementById("bigshadow");
+    var topDiv = document.getElementById("top");
+    var box = document.getElementById("box");
+    var shadow = document.getElementById("shadow");
+
+    var bigimgWidth = parseInt(getStyleAttr(bigImg, "width"));
+    var bigimgHeight = parseInt(getStyleAttr(bigImg, "height"));
+
+    var boxLeft = parseInt(getStyleAttr(box, "marginLeft"));
+    var boxTop = parseInt(getStyleAttr(box, "margin-top"));
+    var topWidth = parseInt(getStyleAttr(topDiv, "width"));
+    var topheight = parseInt(getStyleAttr(topDiv, "height"));
+    var shadowWidth = parseInt(getStyleAttr(shadow, "width"));
+    var shadowHeight = parseInt(getStyleAttr(shadow, "height"));
+    var shadowTop=parseInt(getStyleAttr(shadow, "margin-top"))
+    var bigShadowWidth = parseInt(getStyleAttr(bigShadow, "width"));
+    var bigShadowHeight = parseInt(getStyleAttr(bigShadow, "height"));
+    var topTop = parseInt(getStyleAttr(shadow, "margin-top"))
+
+    
+    var maxX = topWidth - shadowWidth;
+    var maxY = topheight - shadowHeight;
+
+    topDiv.onmousemove=function(e){
+        bigShadow.style.display="block"
+        shadow.style.display="block"
+        var pageX=e.pageX
+        var pageY=e.pageY
+        var x=pageX-shadowWidth/2-boxLeft
+        var y=pageY-shadowHeight/2-boxTop
+        console.log(shadowTop)
+        if(x<=0){
+            x=0
+        }
+        if(y<=0){
+            y=0
+        }
+        if(x>=maxX){
+            x=maxX
+        }
+        if(y>=maxY){
+            y=maxY
+        }
+        shadow.style.left=x+"px"
+        shadow.style.top=y+"px"
+
+        var bigx=bigimgWidth *x / topWidth
+        var bigy=bigimgHeight*y/topheight
+
+        var bigShadowLeft = x - (bigShadowWidth / 2 - shadowWidth / 2)
+        var bigShadowTop = y - (bigShadowHeight / 2 - shadowHeight / 2)
+
+        bigShadow.style.left = bigShadowLeft + "px";
+        bigShadow.style.top = bigShadowTop + "px"
+
+        
+        bigImg.style.left = -bigx + "px";
+        bigImg.style.top = -bigy + "px"
+    }
+    var navList=document.querySelectorAll(".nav li")
+    for(i=0;i<navList.length;i++){
+        navList[i].onmouseover=function(){
+            var smallSrc=this.getAttribute("data-small")
+            smallImg.src = smallSrc
+
+            var bigSrc = this.getAttribute("data-big");
+            bigImg.src = bigSrc;
+        }
+    }
+    topDiv.onmouseout=function(){
+        shadow.style.display="none"
+        bigShadow.style.display="none"
+    }
+
+
+
+function getStyleAttr(obj, attr) {
+        if (window.getComputedStyle) {
+            return window.getComputedStyle(obj)[attr];
+        } else {
+            return obj.currentStyle[attr];
+        }
+    }
+
+</script>
+</html>

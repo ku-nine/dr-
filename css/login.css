@@ -1,0 +1,205 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  vertical-align: top;
+}
+
+.cl:before, .cl:after {
+  display: table;
+  content: "";
+}
+
+.clear:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.dr_header {
+  width: 100%;
+  background-color: #fff;
+}
+
+.dr_header .w {
+  width: 1360px;
+  height: 50px;
+  background-color: #fff;
+  margin: auto;
+  overflow: hidden;
+  margin-top: 24px;
+  position: relative;
+}
+
+.dr_header .w .fix {
+  width: 1360px;
+  height: 20px;
+  background-color: #fff;
+}
+
+.dr_header .w .fix .dr_left {
+  width: 200px;
+  height: 20px;
+  background-color: #fff;
+}
+
+.dr_left img {
+  float: left;
+  margin-bottom: 0;
+}
+
+.dr_header .w .fix .dr_left .dr_left_gps {
+  width: 40px;
+  height: 20px;
+  font-size: 12px;
+  float: left;
+  color: #bf967c;
+  margin-left: 4px;
+  margin-right: 26px;
+  float: left;
+}
+
+.dr_header .w .fix .dr_left .dr_left_shop {
+  width: 60px;
+  height: 12px;
+  font-size: 12px;
+  float: left;
+  color: #797979;
+  margin-right: 1px;
+}
+
+.dr_header .w .dr_right {
+  position: absolute;
+  width: 380px;
+  height: 20px;
+  margin-left: 975px;
+  float: left;
+  background-color: #fff;
+  float: left;
+  top: 0;
+}
+
+.dr_header .w .dr_right a {
+  color: #fff;
+  background-color: #8b766c;
+  font-size: 12px;
+  float: left;
+}
+
+.dr_header .w .dr_right .a {
+  width: 100px;
+  font-size: 12px;
+  color: #8b766c;
+  float: left;
+  margin: auto;
+  text-align: center;
+}
+
+.dr_header .w .dr_right .b {
+  width: 100px;
+  font-size: 12px;
+  color: #8b766c;
+  float: left;
+}
+
+.dr_header .w .dr_right .c {
+  width: 100px;
+  font-size: 12px;
+  color: #8b766c;
+  float: left;
+}
+
+.dr_middle {
+  width: 100%;
+}
+
+.dr_middle .w {
+  width: 1360px;
+  height: 565px;
+  background-image: url(../images/login_bg.jpg);
+  position: relative;
+}
+
+.dr_login {
+  width: 312px;
+  height: 382px;
+  background-color: #fff;
+  position: absolute;
+  top: 60px;
+  right: 60px;
+}
+
+.dr_login h3 {
+  width: 312px;
+  height: 38px;
+  margin-top: 14px;
+  color: #9b745c;
+  text-align: center;
+}
+
+.dr_login .a input.ipTxt {
+  display: block;
+  width: 214px;
+  height: 36px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  margin: auto;
+  margin-top: 12px;
+  color: #666;
+  line-height: 38px;
+  padding-left: 38px;
+}
+
+.dr_login .a input.ico-user {
+  background: url(//res.darryring.com/webimg/passport/ico-uinput.png) no-repeat 12px 12px;
+}
+
+.dr_login .b {
+  width: 254px;
+  height: 54px;
+  position: relative;
+}
+
+.dr_login .b input.ipTxt {
+  display: block;
+  width: 214px;
+  height: 36px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  margin: auto;
+  margin-top: 12px;
+  color: #666;
+  line-height: 38px;
+  padding-left: 38px;
+  margin-left: 28px;
+}
+
+.dr_login .b img {
+  position: absolute;
+  left: 35px;
+  top: 10px;
+}
+
+.dr_login button {
+  width: 100px;
+  height: 30px;
+  margin: auto;
+  margin-left: 30px;
+  color: #9b745c;
+}
+
+/*# sourceMappingURL=login.css.map */

@@ -1,0 +1,2 @@
+/*!uglify*/
+function getUrlParam(name){var reg=new RegExp("(^|&)"+name+"=([^&]*)(&|$)"),r=window.location.search.substr(1).match(reg);return null!=r?unescape(r[2]):null}define(function(require,exports,module){require("jquery"),$(function(){var utm_source=getUrlParam("utm_source");null==utm_source&&(utm_source=""),$.get(umsourceUrl,{utm_source:utm_source},function(res){return!0})})});

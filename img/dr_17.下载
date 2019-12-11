@@ -1,0 +1,30 @@
+//首页品牌文化弹窗JS
+define(function(require,exports,module){
+	/*通过 require 引入依赖*/
+	require('jquery');	
+	$(function(){
+
+        //页面增加css
+        //动态在页面添加css（为了兼容IE）
+        function includeLink(url) {
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = url;
+            document.getElementsByTagName("head")[0].appendChild(link);
+        }
+        includeLink("bundles/acmefrontend/holiday/winter/css/drWinter.css");
+        $('.dr_blackwall').show();
+
+        //页面增加背景
+        var brandStr = '<div class="DRbrand_tc"><a href="'+popUrl+'" class="a01"><img class="DRbrand_Bg" src="'+popImage+'" alt="" /></a>'+
+            // '<a href="https://www.darryring.com/market/drfashionbasha.html" target="_blank" class="DRbrand_first"></a>'+
+            '<a href="'+popUrl+'" target="_blank" class="yy-btn">立即预约</a>'+
+            '<span class="DRbrand_close"></span>';
+        $('.dr_footer').append(brandStr);
+        $('.DRbrand_close').click(function(){
+            $('.dr_blackwall,.DRbrand_tc').hide();
+        });
+
+	});
+});

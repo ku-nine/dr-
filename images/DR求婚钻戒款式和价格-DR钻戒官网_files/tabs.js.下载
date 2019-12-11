@@ -1,0 +1,2 @@
+/*!uglify*/
+define(function(require,exports,module){function Tabs(){this.cfg={tabsTops:"",tabsMains:"",event:"click",callback:null}}require("jquery"),Tabs.prototype={init:function(cfg){var $this=this;$this.cfg=$.extend($this.cfg,cfg);var tabsTop=$($this.cfg.tabsTops),tabsMain=$($this.cfg.tabsMains);tabsMain.hide().eq(0).show(),tabsTop.eq(0).addClass("select"),tabsTop.each(function(index){$(this).off($this.cfg.event).on($this.cfg.event,function(){tabsMain.hide().eq(index).show(),tabsTop.removeClass("select").eq(index).addClass("select")})})}},module.exports=Tabs});
